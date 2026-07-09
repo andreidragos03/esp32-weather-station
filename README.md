@@ -23,7 +23,7 @@ The system consists of three main components:
 
 ### 1. Firmware Setup
 
-1. Create a `config.h` file in the `/firmware` directory:
+1. Copy `firmware/index/config.h.example` to `firmware/index/config.h` (next to `index.ino`) and fill in your values:
 
    ```cpp
    // config.h

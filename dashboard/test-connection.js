@@ -1,7 +1,7 @@
 // Verifies the dashboard can reach MongoDB and shows what data is stored.
 // Usage: node test-connection.js  (requires a filled-in .env next to this file)
 require('dotenv').config();
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
 const { MONGODB_URL, DB_NAME, COLLECTION_NAME } = process.env;
 
@@ -11,12 +11,11 @@ async function main() {
     process.exit(1);
   }
 
-  const client = new MongoClient(MONGODB_URL);
   try {
-    await client.connect();
+    await mongoose.connect(MONGODB_URL, { dbName: DB_NAME });
     console.log('✓ Connected to MongoDB');
 
-    const collection = client.db(DB_NAME).collection(COLLECTION_NAME);
+    const collection = mongoose.connection.db.collection(COLLECTION_NAME);
     const count = await collection.countDocuments();
     console.log(`✓ Database "${DB_NAME}", collection "${COLLECTION_NAME}": ${count} readings`);
 
@@ -28,9 +27,9 @@ async function main() {
     }
   } catch (err) {
     console.error('✗ Connection failed:', err.message);
-    process.exit(1);
+    process.exitCode = 1;
   } finally {
-    await client.close();
+    await mongoose.disconnect();
   }
 }
 

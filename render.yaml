@@ -1,0 +1,45 @@
+services:
+  # Gateway Service - Receives data from ESP32
+  - type: web
+    name: weather-station-gateway
+    env: node
+    plan: free
+    buildCommand: cd gateway && npm install
+    startCommand: cd gateway && npm start
+    envVars:
+      - key: MONGODB_URL
+        sync: false
+      - key: DB_NAME
+        value: weather_station
+      - key: COLLECTION_NAME
+        value: readings
+      - key: API_KEY
+        sync: false
+      - key: PORT
+        fromService:
+          type: web
+          name: weather-station-gateway
+          property: port
+
+  # Dashboard Service - Web interface
+  - type: web
+    name: weather-station-dashboard
+    env: node
+    plan: free
+    buildCommand: cd dashboard && npm install
+    startCommand: cd dashboard && npm start
+    envVars:
+      - key: MONGODB_URL
+        sync: false
+      - key: DB_NAME
+        value: weather_station
+      - key: COLLECTION_NAME
+        value: readings
+      - key: REFRESH_INTERVAL_SECONDS
+        value: 3600
+      - key: PORT
+        fromService:
+          type: web
+          name: weather-station-dashboard
+          property: port
+

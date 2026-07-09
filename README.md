@@ -1,8 +1,6 @@
 # ESP32-C3 Super Mini Weather Station
 
-A complete weather monitoring system using ESP32-C3 Super Mini with multiple sensors and a web dashboard.
-
-Built together with [Adi Sela](https://github.com/adiselav).
+<p align="justify">A complete weather monitoring system using ESP32-C3 Super Mini with multiple sensors and a web dashboard. Built together with <a href="https://github.com/adiselav">Adi Sela</a>.</p>
 
 ## Hardware Components
 
